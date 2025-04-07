@@ -87,3 +87,14 @@ backtrack(state):
         undo the choice
     return false
 ```
+
+
+---
+How would you check if element exists to generate a valid sudoku board ?
+
+You said:
+when generating a sudoku puzzle heres my approach in mind 
+-- generate the whole puzzle using a random int checking each int so its in a valid place
+ --- what im thinking why not use backtracking for this as well
+- once generated remove certain elements accordinly as per difficulty
+
