@@ -60,7 +60,7 @@ Optional: Try iterative approaches later.
 3. if yes move to next step
 4. if no backtack (undo the choice) try next option
 
-applying this to our sudoku with empy squares at places 
+applying this to our sudoku with empy squares at places (solver.c)
 - Enter cell
     - if empty cell
         - place digits from 1->9 one by one
@@ -75,6 +75,23 @@ applying this to our sudoku with empy squares at places
             - if none fit
                 - backtrack to previous try different number
 
+generating the puzzle (generator.c)
+for (looping around the array):
+    if (cell[i][j] == 0):
+        num = random_number() // generates random int between 1 and 9
+            if (num != sudo_conditons)
+                - these conditons check:
+                    - n not in same row
+                    - n not in same col
+                    - n not is same 3x3 block
+            if valid:
+                cell[i][j] == num
+    
+    move to next cell
+
+
+// im stuck at how you check for 3x3 block conditon ??
+
 
 ```sh
 backtrack(state):
@@ -87,14 +104,3 @@ backtrack(state):
         undo the choice
     return false
 ```
-
-
----
-How would you check if element exists to generate a valid sudoku board ?
-
-You said:
-when generating a sudoku puzzle heres my approach in mind 
--- generate the whole puzzle using a random int checking each int so its in a valid place
- --- what im thinking why not use backtracking for this as well
-- once generated remove certain elements accordinly as per difficulty
-
