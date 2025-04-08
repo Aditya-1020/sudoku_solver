@@ -75,19 +75,36 @@ applying this to our sudoku with empy squares at places (solver.c)
             - if none fit
                 - backtrack to previous try different number
 
-generating the puzzle (generator.c)
-for (looping around the array):
-    if (cell[i][j] == 0):
-        num = random_number() // generates random int between 1 and 9
-            if (num != sudo_conditons)
-                - these conditons check:
-                    - n not in same row
-                    - n not in same col
-                    - n not is same 3x3 block
-            if valid:
-                cell[i][j] == num
-    
-    move to next cell
+---
+function generate_board():
+    for i in 0 to 8:
+        for j in 0 to 8:
+            if cell[i][j] == 0:
+                nums = random_number(1..9)
+                for num in nums:
+                    if is_valid(i, j, num):
+                        cell[i][j] = num
+                        if generate_board(): // recursively go to next cell
+                            return true
+                        cell[i][j] = 0 // backtrack
+                return false // no valid number found
+    return true // board is filled
+
+
+-- is_valid structure --
+for k in 0 to 8:
+    if cell[i][k] == num: return false // row check
+    if cell[k][j] == num: return false // col check
+
+startRow = (i // 3) * 3
+startCol = (j // 3) * 3
+for r in startRow to startRow+2:
+    for c in startCol to startCol+2:
+        if cell[r][c] == num: return false
+
+return true
+
+
 
 
 // im stuck at how you check for 3x3 block conditon ??
@@ -104,3 +121,19 @@ backtrack(state):
         undo the choice
     return false
 ```
+
+---
+added include gaurds crazy stuff..!
+- prevents multiple inclusions of same file
+basically checks if header is not defined.. define it now so nex time its included it tells the compiler its been handled
+- like a fly swatter if its included already lol
+
+
+--- 
+also used fisher yates shuffle cause i had a hard time creating unique boards
+
+---
+yeah so diffculties when generating can be selected like during the execution ussing command line arguments when executing the default will be medium diffculty
+two diff are:
+- medium: removes 36-46 digits
+- hard: removes 51-57 digits
