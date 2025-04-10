@@ -11,8 +11,8 @@ A fully functional Sudoku puzzle generator and solver written in C.
     - Each 3×3 sub-grid must contain numbers 1–9 with no repeats.
 
 Board is represented as 9x9 grid in a 2d array
-- Create a data structure to represent the board (2D array or nested list).
 
+---
 ### File Structure
 ```sh
 .
@@ -31,13 +31,12 @@ Note: only two arguments medium and hard
 - medium is default if no argument provided
 ```
 
-## Execution
+### Execution
 ```sh
 ./sudoku [medium|hard]
 ```
 
-
-
+---
 ## Future Features (Extensions)
 - Visualize the solving process step-by-step (console or GUI).
 - Allow user input (enter puzzle manually) or using .txt file.
