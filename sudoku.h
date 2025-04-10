@@ -6,6 +6,7 @@
 #include <string.h>
 
 #define SUDOKU_SIZE 9
+#define SHUFFLE_STACK 9
 
 // below these are basically a reference to the file this header is being included in
 extern int sudoku[SUDOKU_SIZE][SUDOKU_SIZE];

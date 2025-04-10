@@ -4,7 +4,7 @@
 int sudoku[SUDOKU_SIZE][SUDOKU_SIZE] = {0};
 int generated_puzzle[SUDOKU_SIZE][SUDOKU_SIZE];
 
-
+// generates a puzzle by removed elements and replacing them with 0's
 void puzzle_gen(int argc, char *argv[], int generated_puzzle[SUDOKU_SIZE][SUDOKU_SIZE]) {
     const char *difficulty = (argc < 2) ? "medium" : argv[1]; // Default to medium
 
@@ -34,6 +34,7 @@ void puzzle_gen(int argc, char *argv[], int generated_puzzle[SUDOKU_SIZE][SUDOKU
     }
 }
 
+// checks if board generated is valid
 bool is_valid(int row, int col, int num, int arr[SUDOKU_SIZE][SUDOKU_SIZE]){
     for (int k = 0; k < SUDOKU_SIZE; k++){
         if (arr[row][k] == num) return false; // row check
@@ -53,7 +54,7 @@ bool is_valid(int row, int col, int num, int arr[SUDOKU_SIZE][SUDOKU_SIZE]){
 }
 
 // Fisher–Yates shuffle to randomize numbers 1–9
-void get_shuffled_numbers(int nums[9]) {
+void get_shuffled_numbers(int nums[SUDOKU_SIZE]) {
     for (int i = 0; i < 9; i++) {
         nums[i] = i + 1;
     }
@@ -66,44 +67,29 @@ void get_shuffled_numbers(int nums[9]) {
     }
 }
 
+// Recursive function to generate a valid Sudoku board
 bool generate_board(int arr[SUDOKU_SIZE][SUDOKU_SIZE]) {
     for (int i = 0; i < SUDOKU_SIZE; i++) {
         for (int j = 0; j < SUDOKU_SIZE; j++) {
             if (arr[i][j] == 0) {
-                int nums[9];
+                int nums[SHUFFLE_STACK]; // constant -> 9 since it doesnt change and i dont want accidental bugs
                 
-                get_shuffled_numbers(nums);
+                get_shuffled_numbers(nums); // Shuffle numbers 1–9
 
-                for (int k = 0; k < 9; k++) {
-                    int num = nums[k];
-                    if (is_valid(i, j, num, arr)) {
+                // Iterate through the shuffled numbers 1–9
+                for (int k = 0; k < 9; k++) { 
+                    int num = nums[k]; // Pick current num from shuffled nums
+                    if (is_valid(i, j, num, arr)) { // Check if the number can be placed at (i, j)
                         arr[i][j] = num;
 
-                        if (generate_board(arr)) return true;
+                        if (generate_board(arr)) return true; // Recursively attempt fill the the board
 
-                        arr[i][j] = 0; // backtrack
+                        arr[i][j] = 0; // Backtrack: 
                     }
                 }
-                return false;
+                return false; // false if no number fits
             }
         }
     }
-    return true;
-}
-
-int main(int argc, char *argv[]) {
-    srand(time(NULL)); // Seed RNG
-
-    generate_board(sudoku);
-    
-    puzzle_gen(argc, argv, sudoku);
-
-    for (int i = 0; i < SUDOKU_SIZE; i++) {
-        for (int j = 0; j < SUDOKU_SIZE; j++) {
-            printf("%d ", sudoku[i][j]);
-        }
-        printf("\n");
-    }
-
-    return 0;
+    return true; // true when the board is completely filled
 }
